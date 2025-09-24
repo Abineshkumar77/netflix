@@ -31,7 +31,7 @@ export default function MovieSearch() {
     queryKey: ["movies", debouncedValue],
     queryFn: ({ pageParam = 1 }) =>
       fetchMovies(debouncedValue, pageParam as number),
-    enabled: !!debouncedValue && !showFavorites,
+    enabled: !showFavorites,
     initialPageParam: 1,
     getNextPageParam: (lastPage: MoviesResponse) => {
       if (lastPage.page < lastPage.total_pages) {
@@ -80,7 +80,6 @@ export default function MovieSearch() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, showFavorites]);
 
-  // Combine all pages' movies
   const displayedMovies = showFavorites
     ? favorites
     : data
